@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['src/test/java']
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+
+    // Show test results in console
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showStandardStreams = true
+    }
+
+    // Fail build if any tests fail
+    ignoreFailures = false
+}
+
+// Task to compile student code
+compileJava {
+    options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
+}
+
+// Task to compile test code
+compileTestJava {
+    options.compilerArgs += ["-Xlint:deprecation", "-Xlint:unchecked"]
+}
